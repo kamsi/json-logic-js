@@ -460,5 +460,25 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return false;
   };
 
+  // Add custom function here
+  var customOperations = {
+    date_parse: function (someDate) {
+      return Date.parse(someDate);
+    },
+    monthsDiff: function (futureEpoch, pastEpoch) {
+      if (!futureEpoch || !pastEpoch) return -1;
+      var months = new Date(futureEpoch).getMonth() - new Date(pastEpoch).getMonth()
+        + (12 * (new Date(futureEpoch).getFullYear() - new Date(pastEpoch).getFullYear()));
+      if (new Date(futureEpoch).getDate() < new Date(pastEpoch).getDate()) {
+        months--;
+      }
+      return months;
+    }
+  };
+  Object.keys(customOperations).forEach(function (k) {
+    jsonLogic.add_operation(k, customOperations[k]);
+  });
+  // End add custom
+
   return jsonLogic;
 }));
